@@ -24,13 +24,16 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4.5 8a8 8 0 1 1-.1 8M4 3v6h6"/></svg>
     </button>
     ${n()}
+    <button id="lighting-mode" class="icon-button" type="button" aria-label="Switch to night mode" aria-pressed="false" title="Switch to night mode">
+      <svg class="day-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+      <svg class="night-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.5 14A8.5 8.5 0 0 1 10 3.5 8.5 8.5 0 1 0 20.5 14Z"/></svg>
+    </button>
   </nav>
   <footer class="desktop-hints" aria-label="Keyboard controls">
     <span><kbd>W</kbd><span class="key-row"><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span></span><span class="hint-label">wander</span>
     <span class="separator"></span><kbd class="space-key">space</kbd><span class="hint-label">hop</span>
     <span class="separator"></span><svg class="mouse" viewBox="0 0 20 25" fill="none" stroke="currentColor"><rect x="3.5" y="1.5" width="13" height="21" rx="6.5"/><path d="M10 5v5"/></svg><span class="hint-label">orbit · grab</span>
   </footer>
-  <div class="specimen"><span></span> lime &nbsp; / &nbsp; 7 cm of happiness</div>
   <div class="touch-controls" aria-label="Touch controls">
     <button class="joystick" data-joystick type="button" aria-label="Move">
       <span class="joystick-track" aria-hidden="true"></span>
@@ -39,4 +42,4 @@
     <button class="jump" data-control="Space" aria-label="Jump"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 21V6m-6 6 6-6 6 6M6 24h16"/></svg><span>hop</span></button>
   </div>
   <section id="loading" role="status" aria-live="polite"><div class="loading-card"><div class="jelly-mark"></div><h2>A little life.</h2><p id="load-message">Warming up the world</p><pre id="fatal" hidden></pre><button id="retry" hidden>Try again</button></div></section>
-`;var l=`Loading the game`,u=!1,d;function f(e){if(u)return;u=!0,d?.stop();let t=e instanceof Error?e:Error(String(e));document.querySelector(`#loading`).classList.remove(`hidden`),document.querySelector(`#loading`).classList.add(`failed`),document.querySelector(`h2`).textContent=`A little hiccup.`,document.querySelector(`#load-message`).textContent=`The game couldn’t start. Details below.`;let n=document.querySelector(`#fatal`);n.hidden=!1,n.textContent=`${l}\n${t.message}\n\nViewport: ${innerWidth} × ${innerHeight} · DPR ${devicePixelRatio}\n${navigator.userAgent}`,document.querySelector(`#retry`).hidden=!1,console.error(`[Jelly Baby / ${l}]`,t)}window.addEventListener(`error`,e=>f(e.error||e.message)),window.addEventListener(`unhandledrejection`,e=>f(e.reason)),document.querySelector(`#retry`).addEventListener(`click`,()=>location.reload()),c(async()=>{let{startGame:e}=await import(`./runtime-B86-rk5R.js`);return{startGame:e}},[]).then(({startGame:e})=>e(e=>{if(u)throw Error(`Startup aborted after a GPU failure`);l=e,document.querySelector(`#load-message`).textContent=e},f)).then(e=>{if(d=e,u){d.stop();return}l=`Playing`,document.querySelector(`#loading`).classList.add(`hidden`)}).catch(f);export{t as n,e as r,i as t};
+`;var l=`Loading the game`,u=!1,d;function f(e){if(u)return;u=!0,d?.stop();let t=e instanceof Error?e:Error(String(e));document.querySelector(`#loading`).classList.remove(`hidden`),document.querySelector(`#loading`).classList.add(`failed`),document.querySelector(`h2`).textContent=`A little hiccup.`,document.querySelector(`#load-message`).textContent=`The game couldn’t start. Details below.`;let n=document.querySelector(`#fatal`);n.hidden=!1,n.textContent=`${l}\n${t.message}\n\nViewport: ${innerWidth} × ${innerHeight} · DPR ${devicePixelRatio}\n${navigator.userAgent}`,document.querySelector(`#retry`).hidden=!1,console.error(`[Jelly Baby / ${l}]`,t)}window.addEventListener(`error`,e=>f(e.error||e.message)),window.addEventListener(`unhandledrejection`,e=>f(e.reason)),document.querySelector(`#retry`).addEventListener(`click`,()=>location.reload()),c(async()=>{let{startGame:e}=await import(`./runtime-C4NCtYMm.js`);return{startGame:e}},[]).then(({startGame:e})=>e(e=>{if(u)throw Error(`Startup aborted after a GPU failure`);l=e,document.querySelector(`#load-message`).textContent=e},f)).then(e=>{if(d=e,u){d.stop();return}l=`Playing`,document.querySelector(`#loading`).classList.add(`hidden`)}).catch(f);export{t as n,e as r,i as t};
