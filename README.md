@@ -1,3 +1,3 @@
-# Jelly Baby Game Deployed Repo
+# Jelly Baby Game Live
 
 **Visit at *https://jelly.scottsun.io***
