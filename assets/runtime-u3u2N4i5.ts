@@ -113,11 +113,21 @@ export async function startGame(stage:(s:string)=>void,fail:(e:unknown)=>void) {
     baby.update();optics.update(renderer,body,true);transport.follow();await transport.update();
     localReflections.captureNow(renderer,body.center);
   };
-  const lightingMode=new LightingMode(scene,environment,nightEnvironment,light=>{
-    optics.setLightDirection(light.incoming);transport.setLightDirection(light.incoming);
+  const lightingMode=new LightingMode(renderer,scene,camera,environment,nightEnvironment,async(light,signal)=>{
+    optics.setLightDirection(light.incoming);
     facilityShadows.setLighting(light.incoming,light.windowFraction);caustics.setLighting(light);table.setLighting(light);
     localReflections.setEnvironment(light.reflectionTexture);baby.setReflectionMap(localReflections.texture,light.intensity);
-  },fail);
+    // Refresh every visible derivative while the animation loop holds the last
+    // coherent frame. Worker and GPU work overlap where their dependencies allow.
+    const transportReady=transport.refreshLighting(light.incoming);
+    const shadowSyncRevision=facilityShadows.update(renderer);
+    facilityShadows.surfaces.update(renderer,shadowSyncRevision);
+    optics.update(renderer,body,true);
+    const soccerReady=worlds.soccer?.prepareLighting(renderer,worlds.inSoccer)??Promise.resolve();
+    await Promise.all([transportReady,soccerReady]);
+    if(signal.aborted)return;
+    transport.follow();localReflections.captureNow(renderer,body.center);
+  },()=>composite.render(),fail);
   const resize=()=>resizeView(renderer,camera,input.controls);
   let resizeFrame=0;
   const resizeObserver=new ResizeObserver(()=>{
@@ -158,6 +168,7 @@ export async function startGame(stage:(s:string)=>void,fail:(e:unknown)=>void) {
     try {
       const dt=Math.min(.05,Math.max(0,(time-lastTime)/1000));lastTime=time;
       if(document.hidden){physicsClock.reset();return;}
+      if(lightingMode.switching){physicsClock.reset();return;}
       if(worlds.loading||worlds.menu.opened){physicsClock.reset();return;}
       const steps=physicsClock.advance(dt,()=>{
         if(worlds.loading)return;
